@@ -1,4 +1,4 @@
-package pl.maropce.courseapplication.material;
+package pl.maropce.courseapplication.quiz;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -8,15 +8,11 @@ import pl.maropce.courseapplication.course.Course;
 @Entity
 @Data
 @NoArgsConstructor
-public class Material {
-
+public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
-    private String description;
-    private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")

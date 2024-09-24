@@ -7,22 +7,24 @@ import pl.maropce.courseapplication.course.CourseRepository;
 import pl.maropce.courseapplication.course.CourseLevel;
 import pl.maropce.courseapplication.material.Material;
 import pl.maropce.courseapplication.material.MaterialRepository;
+import pl.maropce.courseapplication.quiz.Quiz;
+import pl.maropce.courseapplication.quiz.QuizRepository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
 
-
     private final CourseRepository courseRepository;
     private final MaterialRepository materialRepository;
+    private final QuizRepository quizRepository;
 
-    public DataInitializer(CourseRepository courseRepository, MaterialRepository materialRepository) {
+    public DataInitializer(CourseRepository courseRepository, MaterialRepository materialRepository, QuizRepository quizRepository) {
         this.courseRepository = courseRepository;
         this.materialRepository = materialRepository;
+        this.quizRepository = quizRepository;
     }
 
     @Override
@@ -30,7 +32,7 @@ public class DataInitializer implements CommandLineRunner {
        createSampleCourses();
     }
 
-    public List<Course> createSampleCourses() {
+    public void createSampleCourses() {
         List<Course> courses = new ArrayList<>();
 
         Course beginnerCourse = new Course();
@@ -80,9 +82,19 @@ public class DataInitializer implements CommandLineRunner {
         materialRepository.save(material1);
         materialRepository.save(material2);
 
+        // Dodawanie quizów do kursów
+        createSampleQuizForCourse(beginnerCourse, "Java Basics Quiz");
+        createSampleQuizForCourse(intermediateCourse, "Spring Boot Quiz");
+        createSampleQuizForCourse(advancedCourse, "Advanced Java Quiz");
+    }
 
+    private void createSampleQuizForCourse(Course course, String title) {
+        Quiz quiz = new Quiz();
+        quiz.setTitle(title);
+        quiz.setCourse(course);
 
-        return courses;
+        quizRepository.save(quiz);
     }
 }
+
 

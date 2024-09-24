@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/course")
@@ -22,13 +21,9 @@ class CourseController {
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourse(
             @PathVariable Long id) {
-        Optional<Course> course = courseService.getCourse(id);
 
-
-        return ResponseEntity.ok(
-                course.orElseThrow(
-                        () -> new CourseNotFoundException("Course with id: " + id + " does not exist!")
-                ));
+        Course course = courseService.getCourse(id);
+        return ResponseEntity.ok(course);
     }
 
     @GetMapping
@@ -53,9 +48,12 @@ class CourseController {
 
 
     @ExceptionHandler(CourseNotFoundException.class)
-    public ResponseEntity<?> exceptionHandler(RuntimeException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String exceptionHandler(CourseNotFoundException ex) {
+        return ex.getMessage();
     }
+
+
 
 
 }

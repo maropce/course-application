@@ -1,10 +1,10 @@
 package pl.maropce.courseapplication.course;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.maropce.courseapplication.material.Material;
+import pl.maropce.courseapplication.quiz.Quiz;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -27,4 +27,7 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Material> materials = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<Quiz> quizzes = new HashSet<>();
 }

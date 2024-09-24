@@ -1,10 +1,8 @@
 package pl.maropce.courseapplication.course;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CourseService {
@@ -21,15 +19,16 @@ public class CourseService {
     }
 
     public List<Course> getAllCourses() {
-
         return courseRepository.findAll();
     }
 
-    public Optional<Course> getCourse(Long id) {
-        return courseRepository.findById(id);
+    public Course getCourse(Long id) {
+        return courseRepository.findById(id)
+                .orElseThrow(() -> new CourseNotFoundException("Course with id: " + id + " does not exist!"));
     }
 
     public void deleteCourse(Long id) {
         courseRepository.deleteById(id);
     }
+
 }
