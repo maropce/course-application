@@ -1,8 +1,9 @@
 package pl.maropce.courseapplication.course;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.maropce.courseapplication.material.Material;
 import pl.maropce.courseapplication.quiz.Quiz;
 
@@ -11,7 +12,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Course {
 

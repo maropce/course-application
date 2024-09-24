@@ -1,12 +1,15 @@
 package pl.maropce.courseapplication.material;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.maropce.courseapplication.course.Course;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Material {
 
@@ -18,6 +21,7 @@ public class Material {
     private String description;
     private String url;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
