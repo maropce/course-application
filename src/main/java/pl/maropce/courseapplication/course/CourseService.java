@@ -1,8 +1,11 @@
 package pl.maropce.courseapplication.course;
 
 import org.springframework.stereotype.Service;
+import pl.maropce.courseapplication.course.dto.CourseDTO;
+import pl.maropce.courseapplication.course.dto.CourseMapper;
 
 import java.util.List;
+
 
 @Service
 public class CourseService {
@@ -14,17 +17,22 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public Course save(Course course) {
-        return courseRepository.save(course);
+    public CourseDTO save(Course course) {
+        Course save = courseRepository.save(course);
+        return CourseMapper.toDto(save);
     }
 
-    public List<Course> getAllCourses() {
-        return courseRepository.findAll();
+    public List<CourseDTO> getAllCourses() {
+       return courseRepository.findAll()
+               .stream()
+               .map(CourseMapper::toDto)
+               .toList();
     }
 
-    public Course getCourse(Long id) {
-        return courseRepository.findById(id)
+    public CourseDTO getCourse(Long id) {
+        Course course = courseRepository.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException("Course with id: " + id + " does not exist!"));
+        return CourseMapper.toDto(course);
     }
 
     public void deleteCourse(Long id) {

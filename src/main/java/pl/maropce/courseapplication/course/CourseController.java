@@ -3,6 +3,7 @@ package pl.maropce.courseapplication.course;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.maropce.courseapplication.course.dto.CourseDTO;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,22 +20,22 @@ class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourse(
+    public ResponseEntity<CourseDTO> getCourse(
             @PathVariable Long id) {
 
-        Course course = courseService.getCourse(id);
+        CourseDTO course = courseService.getCourse(id);
         return ResponseEntity.ok(course);
     }
 
     @GetMapping
-    public ResponseEntity<List<Course>> getAllCourses() {
+    public ResponseEntity<List<CourseDTO>> getAllCourses() {
         return ResponseEntity.ok(courseService.getAllCourses());
     }
 
     @PostMapping
     public ResponseEntity<Void> saveCourse(
             @RequestBody Course course) throws URISyntaxException {
-        Course savedCourse = courseService.save(course);
+        CourseDTO savedCourse = courseService.save(course);
         return ResponseEntity.created(new URI("http://localhost:8080/api/course/" + savedCourse.getId())).build();
     }
 
