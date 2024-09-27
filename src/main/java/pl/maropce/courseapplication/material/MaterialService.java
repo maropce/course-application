@@ -1,6 +1,8 @@
 package pl.maropce.courseapplication.material;
 
 import org.springframework.stereotype.Service;
+import pl.maropce.courseapplication.material.dto.MaterialDTO;
+import pl.maropce.courseapplication.material.dto.MaterialMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,20 +11,27 @@ import java.util.Optional;
 public class MaterialService {
     private final MaterialRepository materialRepository;
 
-    MaterialService(MaterialRepository repository) {
+    public MaterialService(MaterialRepository repository) {
         this.materialRepository = repository;
     }
 
-    public Material save(Material material) {
-        return materialRepository.save(material);
+    public MaterialDTO save(Material material) {
+        Material save = materialRepository.save(material);
+        return MaterialMapper.toDto(save);
     }
 
-    public List<Material> getAllMaterials() {
-        return materialRepository.findAll();
+    public List<MaterialDTO> getAllMaterials() {
+        return materialRepository.findAll()
+                .stream()
+                .map(MaterialMapper::toDto)
+                .toList();
     }
 
-    public Optional<Material> getMaterial(Long id) {
-        return materialRepository.findById(id);
+    public MaterialDTO getMaterial(Long id) {
+        Material material = materialRepository.findById(id)
+                .orElseThrow(() -> new MaterialNotFoundException(id));
+        return MaterialMapper.toDto(material);
+
     }
 
     public void deleteMaterial(Long id) {
